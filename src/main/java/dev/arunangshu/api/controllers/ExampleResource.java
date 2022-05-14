@@ -1,4 +1,4 @@
-package dev.arunangshu.api;
+package dev.arunangshu.api.controllers;
 
 import javax.annotation.security.PermitAll;
 import javax.ws.rs.GET;
