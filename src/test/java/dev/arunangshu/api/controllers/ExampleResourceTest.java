@@ -1,4 +1,4 @@
-package dev.arunangshu;
+package dev.arunangshu.api.controllers;
 
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
