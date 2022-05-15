@@ -1,18 +1,16 @@
 package dev.arunangshu.api.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.arunangshu.api.model.RequestStatus;
 import dev.arunangshu.api.model.RequestStatusWrapper;
 import dev.arunangshu.api.model.UserDto;
 import dev.arunangshu.api.model.WhoAmI;
-import dev.arunangshu.exceptions.ServiceException;
 import dev.arunangshu.services.UserService;
 import dev.arunangshu.utils.NickNameGenerator;
-import io.quarkus.logging.Log;
 import io.quarkus.oidc.UserInfo;
 import io.quarkus.security.Authenticated;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -48,9 +46,8 @@ public class UserResource {
     @Path(WHO_AM_I_PATH)
     @Produces(MediaType.TEXT_PLAIN)
     @Authenticated
+    @SecurityRequirement(name = "Auth0")
     public Response whoAmI() {
-        Log.info("User roles: " + userInfo.getArray(roleClaimPath.replace("\"", "")));
-
         return Response.ok()
                 .entity(WhoAmI.builder()
                         .name(userInfo.getString("name"))
@@ -66,6 +63,7 @@ public class UserResource {
     @Path(REGISTER_PATH)
     @Produces(MediaType.APPLICATION_JSON)
     @Authenticated
+    @SecurityRequirement(name = "Auth0")
     public Response register() {
         try {
             UserDto userDto = objectMapper.readValue(
