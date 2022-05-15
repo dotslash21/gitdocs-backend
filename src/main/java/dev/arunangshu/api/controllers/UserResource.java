@@ -44,7 +44,7 @@ public class UserResource {
 
     @GET
     @Path(WHO_AM_I_PATH)
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     @Authenticated
     @SecurityRequirement(name = "Auth0")
     public Response whoAmI() {
@@ -53,7 +53,7 @@ public class UserResource {
                         .name(userInfo.getString("name"))
                         .roles(userInfo.getArray(roleClaimPath.replace("\"", ""))
                                 .stream()
-                                .map(String::valueOf)
+                                .map(jsonValue -> jsonValue.toString().replace("\"", ""))
                                 .collect(Collectors.toList()))
                         .build())
                 .build();
